@@ -30,7 +30,9 @@ def CheckProc(stage):
         time.sleep(0.5)
         print('Checking')
         message = str(q.get())
-        print(message + ' Print conv')
+        #message = input()
+        message = message.replace('ё', 'е')
+        #print(message + ' Print conv')
         if message == "False":
             break
         elif message == 'None':
@@ -40,6 +42,7 @@ def CheckProc(stage):
         else:
             for element in menu:
                 c.delete(element)
+            print(stage)
             stage = current_stage(message, stage)
             #answer = message_handler(stage)
             message = message[0:1].upper() + message[1:len(message)]
@@ -50,15 +53,16 @@ def CheckProc(stage):
             else:
                 if type(stage) is str:
                   answer = message_handler(stage)
-                  print(answer)
                   add_message_bubble('left', answer)
+                  print('heresibe')
                 elif len(dishes) != 0:
                   answer = get_check(dishes)
+                  print('Here')
                   stage = 'check'
-                  print(answer)
                   add_message_bubble('left', answer)
-            print(stage)
-            ai.say(answer)
+            print(answer)
+            #print(stage)
+            #ai.say(answer)
 
 def Exit():
     root.destroy()
