@@ -23,8 +23,9 @@ def message_handler(stage):
     return answer
 
   elif stage == 'dishes':
-    answer = 'Ваш текущий заказ: '+', '.join(dishes)+'\nЕсли Вы определилсь с заказом,'+\
-                                                    ' то выберите место у окна или напротив телевизора.'
+    """answer = 'Если Вы определилсь с заказом,'+\
+                                                    ' то выберите место у окна или напротив телевизора.'"""
+    answer = 'Определитесь с местом'
     return answer
 
   elif stage == 'place':
