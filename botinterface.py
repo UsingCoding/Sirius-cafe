@@ -24,21 +24,23 @@ menu = []
 stages = ['pre']
 
 ''' События '''
-def CheckProc():
+def CheckProc(stage):
     while True:
         time.sleep(0.5)
         print('Checking')
-        conv = str(q.get())
-        print(conv + ' Print conv')
-        if conv == "False":
+        message = str(q.get())
+        print(message + ' Print conv')
+        if message == "False":
             break
+        elif message == 'None':
+            add_message_bubble('right', "...")
+            add_message_bubble('left', "Повторите, пожалуйста")
+            #send.tts(""Повторите, пожалуйста"")
         else:
-            add_message_bubble('right', conv)
-            state = main(conv)
-            #send to tts message
-            time.sleep(0.1)
-            print(state)
-            add_message_bubble('left')
+            add_message_bubble('right', message)
+            stage = current_stage(message, stage)
+            answer = message_handler(stage)
+            add_message_bubble('left', answer)
 
 def Exit():
     root.destroy()
@@ -73,7 +75,7 @@ def menu_show(event):
 
 ''' Добавить облачко текста. Параметры - сторона, текст сообщения '''
 def add_message_bubble(side, text):
-    text = split_text(text, 33)
+    text = split_text(text, 26)
     now = get_current_time()
     if side == 'left':
         bubbles.insert(0, c.create_image((10, 450), image=bubble_left_image, anchor='nw', tags='bubble_left'))
@@ -148,6 +150,6 @@ c.pack()
 root.protocol("WM_DELETE_WINDOW", Exit)
 q = Queue()
 lock = Lock()
-p = Process(target=CheckProc)
+p = Process(target=CheckProc, args=(stage, ))
 p.start()
 root.mainloop()
