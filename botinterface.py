@@ -3,6 +3,8 @@ from misc.utils import *
 #from multiprocessing.pool import ThreadPool
 import speech_recognition as sr
 from logic.logic import *
+from multiprocessing.dummy import Process, Queue
+from Stt_and_tts import *
 
 ''' Инициализация программы tkinter '''
 root = Tk()
