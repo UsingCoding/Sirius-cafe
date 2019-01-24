@@ -29,8 +29,8 @@ def CheckProc(stage):
     while True:
         time.sleep(0.5)
         print('Checking')
-        message = str(q.get())
-        #message = input()
+        #message = str(q.get())
+        message = input()
         message = message.replace('ё', 'е')
         #print(message + ' Print conv')
         if message == "False":
