@@ -53,8 +53,9 @@ def CheckProc(stage):
                 #bludes = '\n'.join(dishes))
                 bludes = 'Ваш заказ: ' + '\n'
                 for x in dishes:
-                    bludes += '•' + x + '\n'
-                bludes += 'Вы можете сесть рядом с окном' + 'или напротив телевизора'
+                    x = x[0:1].upper() + x[1:len(message)]
+                    bludes += ' -' + x + '\n'
+                bludes += 'Вы можете сесть рядом с окном' + '\n' + ' или напротив телевизора'
                 answer = message_handler(stage)
                 add_message_bubble('left', answer)
                 menu_show(bludes)
