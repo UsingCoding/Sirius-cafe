@@ -61,7 +61,7 @@ def CheckProc(stage):
                   stage = 'check'
                   add_message_bubble('left', answer)
             print(answer)
-            #print(stage)
+            ###print(stage)
             #ai.say(answer)
 
 def Exit():
