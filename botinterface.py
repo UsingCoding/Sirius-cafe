@@ -28,9 +28,8 @@ def CheckProc(stage):
     ai = Speech_AI()
     while True:
         time.sleep(0.5)
-        print('Checking')
-        message = str(q.get())
-        #message = input()
+        #message = str(q.get())
+        message = input()
         message = message.replace('ё', 'е')
         #print(message + ' Print conv')
         if message == "False":
@@ -42,14 +41,23 @@ def CheckProc(stage):
         else:
             for element in menu:
                 c.delete(element)
-            print(stage)
+            #print(stage)
             stage = current_stage(message, stage)
             #answer = message_handler(stage)
             message = message[0:1].upper() + message[1:len(message)]
             add_message_bubble('right', message)
             if stage == 'menu':
-                menu_show()
+                menu_show(menu_placeholder)
                 answer = message_handler(stage)
+            elif stage == 'dishes':
+                #bludes = '\n'.join(dishes))
+                bludes = 'Ваш заказ: ' + '\n'
+                for x in dishes:
+                    bludes += '•' + x + '\n'
+                print(bludes)
+                menu_show(bludes)
+                answer = message_handler(stage)
+                add_message_bubble('left', answer)
             else:
                 if type(stage) is str:
                   answer = message_handler(stage)
@@ -57,12 +65,13 @@ def CheckProc(stage):
                   print('heresibe')
                 elif len(dishes) != 0:
                   answer = get_check(dishes)
-                  print('Here')
+                  #print('Here')
                   stage = 'check'
                   add_message_bubble('left', answer)
-            print(answer)
-            ###print(stage)
+            #print(answer)
+            print(stage)
             #ai.say(answer)
+            print('--------------------------------------------------')
 
 def Exit():
     root.destroy()
@@ -84,14 +93,14 @@ def mic_clickEvent(event, button_stage):
         print(event.widget)
         event.widget.place_forget()
 
-def menu_show():
+def menu_show(text):
     for element in menu:
         c.delete(element)
     menu.append(c.create_image((0,0), image=menu_shadow, anchor='nw', tags='menu_shadow'))
     menu.append(c.create_image((400, 280), image=menu_banner_image, anchor='center', tags='menu_banner'))
     # first row of menu entries
     # При добавлении нового столбца меню (2, 3), по x сдвигать на 165
-    menu.append(c.create_text((160, 95), text=menu_placeholder, anchor='nw', font=('Calibri', 13), fill='#606060', tags='menu_entries'))
+    menu.append(c.create_text((160, 95), text=text, anchor='nw', font=('Calibri', 13), fill='#606060', tags='menu_entries'))
     c.tag_lower(c.find_withtag('menu_shadow'))
     for ts in messages_timestamps:
         c.tag_lower(ts)
