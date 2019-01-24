@@ -101,6 +101,7 @@ class Speech_AI:
 
         while mixer.music.get_busy():
             time.sleep(0.1)
+        self.clean_up()
 
     def check_in_string(self, string, words):
         if any(word in string for word in words):

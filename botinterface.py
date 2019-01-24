@@ -25,6 +25,7 @@ stages = ['pre']
 
 ''' События '''
 def CheckProc(stage):
+    ai = Speech_AI()
     while True:
         time.sleep(0.5)
         print('Checking')
@@ -35,12 +36,29 @@ def CheckProc(stage):
         elif message == 'None':
             add_message_bubble('right', "...")
             add_message_bubble('left', "Повторите, пожалуйста")
-            #send.tts(""Повторите, пожалуйста"")
+            ai.say("Повторите, пожалуйста")
         else:
-            add_message_bubble('right', message)
+            for element in menu:
+                c.delete(element)
             stage = current_stage(message, stage)
-            answer = message_handler(stage)
-            add_message_bubble('left', answer)
+            #answer = message_handler(stage)
+            message = message[0:1].upper() + message[1:len(message)]
+            add_message_bubble('right', message)
+            if stage == 'menu':
+                menu_show()
+                answer = message_handler(stage)
+            else:
+                if type(stage) is str:
+                  answer = message_handler(stage)
+                  print(answer)
+                  add_message_bubble('left', answer)
+                elif len(dishes) != 0:
+                  answer = get_check(dishes)
+                  stage = 'check'
+                  print(answer)
+                  add_message_bubble('left', answer)
+            print(stage)
+            ai.say(answer)
 
 def Exit():
     root.destroy()
@@ -52,7 +70,7 @@ def mic_clickEvent(event, button_stage):
     if button_stage == 'begin':
         #mic_red.place(x=380, y=506, anchor='nw')
         #mic_red.place_forget()
-        A =Speech_AI()
+        A = Speech_AI()
         proc = Process(target=A.work, args=(q, mic_red, lock))
         proc.start()
 
@@ -62,15 +80,21 @@ def mic_clickEvent(event, button_stage):
         print(event.widget)
         event.widget.place_forget()
 
-def menu_show(event):
+def menu_show():
     for element in menu:
         c.delete(element)
     menu.append(c.create_image((0,0), image=menu_shadow, anchor='nw', tags='menu_shadow'))
     menu.append(c.create_image((400, 280), image=menu_banner_image, anchor='center', tags='menu_banner'))
     # first row of menu entries
     # При добавлении нового столбца меню (2, 3), по x сдвигать на 165
-    menu.append(c.create_text((160, 95), text=menu_placeholder, anchor='nw', font=('Bahnschrift Light Condensed', 13), fill='#606060', tags='menu_entries'))
+    menu.append(c.create_text((160, 95), text=menu_placeholder, anchor='nw', font=('Calibri', 13), fill='#606060', tags='menu_entries'))
     c.tag_lower(c.find_withtag('menu_shadow'))
+    for ts in messages_timestamps:
+        c.tag_lower(ts)
+    for msg in messages:
+        c.tag_lower(msg)
+    for bub in bubbles:
+        c.tag_lower(bub)
     c.tag_lower(c.find_withtag('mainbg'))
 
 ''' Добавить облачко текста. Параметры - сторона, текст сообщения '''
