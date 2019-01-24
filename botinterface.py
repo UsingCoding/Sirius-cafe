@@ -2,7 +2,7 @@ from tkinter import *
 from misc.utils import *
 #from multiprocessing.pool import ThreadPool
 import speech_recognition as sr
-#from logic.logic import *
+from logic import *
 from multiprocessing.dummy import Process, Queue, Lock
 from Stt_and_tts import *
 import time
@@ -34,7 +34,7 @@ def CheckProc():
             break
         else:
             add_message_bubble('right', conv)
-            state = logic.main(conv)
+            state = main(conv)
             #send to tts message
             time.sleep(0.1)
             print(state)

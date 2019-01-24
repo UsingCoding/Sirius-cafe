@@ -182,6 +182,7 @@ def current_stage(message, stage):
 
 stage = 'pre'
 
+"""
 while stage != 'bye':
   message = str(input())
   message = re.sub('[^А-я]', ' ', message.lower())
@@ -201,3 +202,4 @@ while stage != 'bye':
 
   else:
     print('Не удалось распознать.')
+"""
