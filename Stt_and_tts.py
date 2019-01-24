@@ -1,3 +1,29 @@
+import speech_recognition as sr
+from gtts import gTTS
+import multiprocessing as mp
+from multiprocessing import Queue
+
+from pygame import mixer
+mixer.init()
+
+import os, sys, time
+import logging
+
+class Statement:
+    def __init__(self, dict):
+        self.confidence = dict['confidence']
+        self.text = dict['transcript'].lower()
+
+    def __repr__(self):
+        return "[{}] {}".format(self.confidence, self.text)
+
+    def __str__(self):
+        return self.text
+
+    def __gt__(self, other):
+        return self.confidence > other.confidence
+
+
 class Speech_AI:
     def __init__(self, google_treshold = 0.5, chatterbot_treshold = 0.45):
         self._recognizer = sr.Recognizer()
@@ -9,13 +35,15 @@ class Speech_AI:
         self.be_quiet = False
 
 
-    def work(self):
+    def work(self, q, mic_red, lock):
+        lock.acquire()
         print('Минутку тишины, пожалуйста...')
         with self._microphone as source:
             self._recognizer.adjust_for_ambient_noise(source)
 
         #while True:
         print('Скажи что - нибудь!')
+        mic_red.place(x=380, y=506, anchor='nw')
         with self._microphone as source:
             audio = self._recognizer.listen(source)
         print("Понял, идет распознавание...")
@@ -25,6 +53,8 @@ class Speech_AI:
         print('Вы сказали: ', best_statement)
         kort = (best_statement)
         q.put(kort)
+        mic_red.place_forget()
+        lock.release()
         if not self.be_quiet:
             pass
         print()
