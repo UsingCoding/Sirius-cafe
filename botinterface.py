@@ -18,7 +18,6 @@ bubbles = []
 messages_timestamps = []
 audio = []
 menu = []
-# pool = ThreadPool(processes=1)
 
 # Стадия (этап, фаза) общения с официантом
 stages = ['pre']
@@ -69,10 +68,8 @@ def CheckProc(stage):
                   #print('Here')
                   stage = 'check'
                   add_message_bubble('left', answer)
-            #print(answer)
-            print(stage)
-            #ai.say(answer)
-            print('--------------------------------------------------')
+            ai.say(answer)
+            #print('--------------------------------------------------')
 
 def Exit():
     root.destroy()
