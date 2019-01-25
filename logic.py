@@ -15,11 +15,11 @@ check_keywords = ['чек', 'счет', 'сч']
 
 def message_handler(stage):
   if stage == 'greeting':
-    answer = 'Здравствуйте! Чего желаете?'
+    answer = 'Здравствуйте!'
     return answer
 
   elif stage == 'menu':
-    answer = 'вот меню: пиво вобла караоке'
+    answer = 'Ваше меню на экране'
     return answer
 
   elif stage == 'dishes':
@@ -29,7 +29,7 @@ def message_handler(stage):
     return answer
 
   elif stage == 'place':
-    answer = 'Можете пройти за свой стол. Скоро Ваш заказ будет готов.\nДля завершения попросите счёт.'
+    answer = 'Можете пройти за стол. Для завершения попросите счёт.'
     return answer
 
   elif stage == 'bye':
@@ -51,9 +51,7 @@ def get_check(dishes):
 
 
 def current_stage(message, stage):
-  print('First one' + str(message))
   message = message.split()    # Список из слов сообщения
-  print('Second one' + str(message))
   menu_stages = 0     # Количество упоминаний ключ  евых слов menu и stages в одном сообщении
   place_stages = 0
   greeting_stages = 0
@@ -84,21 +82,21 @@ def current_stage(message, stage):
     for i in range(0, len(message)-2):
       if message[i] + ' ' + message[i + 1] + ' ' + message[i + 2] in dishes_keywords:
         if message[i] + ' ' + message[i + 1] + ' ' + message[i + 2] not in dishes:
-          print('А3')
+          #print('А3')
           dishes.append(message[i] + ' ' + message[i + 1] + ' ' + message[i + 2])
           #print('Блюдо', message[i] + ' ' + message[i + 1] + ' ' + message[i + 2], 'было добавлено.')
           dishes_stages += 1
 
       elif message[i + 1] + ' ' + message[i + 2] in dishes_keywords:
         if message[i] + ' ' + message[i + 1] not in dishes:
-          print('А2')
+          #print('А2')
           dishes.append(message[i + 1] + ' ' + message[i + 2])
           #print('Блюдо', message[i + 1] + ' ' + message[i + 2], 'было добавлено.')
           dishes_stages += 1
 
       elif message[i + 2] in dishes_keywords:
         if message[i + 2] not in dishes:
-          print('А1')
+          #print('А1')
           dishes.append(message[i + 2])
           #print('Блюдо', message[i + 2], 'было добавлено.')
           dishes_stages += 1
@@ -118,17 +116,17 @@ def current_stage(message, stage):
       return 'check', dishes
 
     if message[0] in question_words:  # Условие, если сообщения начинается с вопросительного слова
-      print('a')
+      #print('a')
 
       if max(menu_stages, place_stages, dishes_stages)/min(menu_stages, place_stages, dishes_stages) >= 3.0:
-        print('a.1')
+        #print('a.1')
 
         if menu_stages == max(menu_stages, place_stages, dishes_stages) and stage in ['greeting', 'dishes']:
-          print('a.1.1')
+          #print('a.1.1')
           return 'menu'
 
         elif max(menu_stages, place_stages, dishes_stages) == place_stages and stage in ['menu', 'dishes']:
-          print('a.1.2')
+          #print('a.1.2')
           if len(dishes) != 0:
             return 'place'
 
@@ -136,24 +134,24 @@ def current_stage(message, stage):
             return 'menu'
 
         else:
-          print('a.1.3')
+          #print('a.1.3')
           return stage
 
       else:
-        print('a.2')
+        #print('a.2')
         return stage
 
     else:
-      print('b')
+      #print('b')
       if max(menu_stages, place_stages, dishes_stages)/min(menu_stages, place_stages, dishes_stages) > 5.0:
-        print('b.2')
+        #print('b.2')
 
         if menu_stages > place_stages and stage in ['greeting', 'dishes']:
-          print('b.2.1')
+          #print('b.2.1')
           return 'menu'
 
         elif place_stages > menu_stages and stage in ['menu', 'place']:
-          print('b.2.2')
+          #print('b.2.2')
           if len(dishes) != 0:
             return 'place'
 
@@ -161,11 +159,11 @@ def current_stage(message, stage):
             return 'menu'
 
         else:
-          print('b.2.3')
+          #print('b.2.3')
           return stage
 
       else:
-        print('b.3')
+        #print('b.3')
         return stage
 
   except ZeroDivisionError:
@@ -180,7 +178,7 @@ def current_stage(message, stage):
         return 'menu'
 
     else:
-      print('zero')
+      #print('zero')
       return stage
 
 stage = 'pre'

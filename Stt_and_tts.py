@@ -37,23 +37,23 @@ class Speech_AI:
 
     def work(self, q, mic_red, lock):
         lock.acquire()
-        print('Минутку тишины, пожалуйста...')
+        #print('Минутку тишины, пожалуйста...')
         with self._microphone as source:
             self._recognizer.adjust_for_ambient_noise(source)
 
         #while True:
-        print('Скажи что - нибудь!')
+        #print('Скажи что - нибудь!')
         mic_red.place(x=380, y=506, anchor='nw')
         with self._microphone as source:
             audio = self._recognizer.listen(source)
-        print("Понял, идет распознавание...")
+        #print("Понял, идет распознавание...")
+        mic_red.place_forget()
         statements = self.recognize(audio) # Можно заменить на файл
-        print('Выражения ', statements)
+        #print('Выражения ', statements)
         best_statement = self.choose_best_statement(statements)
-        print('Вы сказали: ', best_statement)
+        #print('Вы сказали: ', best_statement)
         kort = (best_statement)
         q.put(kort)
-        mic_red.place_forget()
         lock.release()
         if not self.be_quiet:
             pass
@@ -88,7 +88,7 @@ class Speech_AI:
     def say(self, phrase):
         # Synthesize answer
         # todo check exceptons there
-        print("[GoogleTTS] Начало запроса")
+        #print("[GoogleTTS] Начало запроса")
         try:
             tts = gTTS(text=phrase, lang="ru")
             tts.save(self._mp3_name)
